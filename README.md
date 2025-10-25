@@ -111,6 +111,9 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 - `private.key` - Private key (no password)
 - `certificate.crt` - Self-signed certificate
 
+**Note:** Make sure the private key and the certificate are stored in a location accessible to your web server. </br>
+In my example these locations are `/etc/ssl/private/` and `/etc/ssl/certs/`.
+
 ### Installation
 
 1. **Clone the repository**
@@ -242,7 +245,7 @@ All dependencies are loaded via CDN:
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://mit-license.org/) file for details.
 
 ---
 
