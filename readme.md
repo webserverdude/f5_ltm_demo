@@ -32,6 +32,17 @@ A modern, responsive web application designed for demonstrating F5 Local Traffic
   - Side-by-side image layout
   - Hover effects and transitions
 
+## 📸 Screenshots
+
+### Dashboard Overview
+<img src="screenshots/dashboard.png" alt="Dashboard" width="800">
+
+### Network Architecture
+<img src="screenshots/network-diagram.png" alt="Network Diagram" width="400">
+
+### Mobile Responsive
+<img src="screenshots/mobile.png" alt="Mobile View" width="400">
+
 ## 🚀 Quick Start
 
 ### Prerequisites
