@@ -106,7 +106,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 1. **Clone the repository**
    ```bash
    git clone https://github.com/webserverdude/ltm-demo-html.git
-   cd ltm-demo-html
+   cd webpages
    ```
 2. **Deploy to your web server**
    ```bash
@@ -129,16 +129,20 @@ Add this configuration to your NGINX server block:
 ## 📁 Project Structure
 
 ```
-ltm-demo-html/
-├── index_red.html          # Server 1 (Red theme)
-├── index_blue.html         # Server 2 (Blue theme)
-├── index_green.html        # Server 3 (Green theme)
-├── styles_red.css          # CSS for red theme
-├── styles_blue.css         # CSS for blue theme
-├── styles_green.css        # CSS for green theme
-├── scripts.js              # JavaScript functionality
-├── dummy.jpg               # Placeholder images
-└── README.md               # This file
+webpages/
+├── index_red.html           # Server 1 (Red theme)
+├── index_blue.html          # Server 2 (Blue theme)
+├── index_green.html         # Server 3 (Green theme)
+├── index_yellow.html        # Server 4 (Yellow theme)
+├── assets/styles_red.css    # CSS for red theme
+├── assets/styles_blue.css   # CSS for blue theme
+├── assets/styles_green.css  # CSS for green theme
+├── assets/styles_yellow.css # CSS for green theme
+├── assets/scripts.js        # JavaScript functionality
+├── assets/r12000image1.png  # rSeries image
+├── assets/image142.png      # VELOS image
+├── nginx_config/            # NGINX config files
+└── README.md                # This file
 ```
 
 ## 🔧 Template Variables
