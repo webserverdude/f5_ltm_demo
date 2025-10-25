@@ -199,22 +199,23 @@ server {
 ## 📁 Project Structure
 
 ```
+nginx_config/
+├── ltm-demo                 # NGINX config files for http
+├── ltm-demo-ssl             # NGINX config files for https
+screenshots/                 # Browser screenshots
 webpages/
-├── index_red.html            # Server 1 (Red theme)
-├── index_blue.html           # Server 2 (Blue theme)
-├── index_green.html          # Server 3 (Green theme)
-├── index_yellow.html         # Server 4 (Yellow theme)
-├── assets/styles_red.css     # CSS for red theme
-├── assets/styles_blue.css    # CSS for blue theme
-├── assets/styles_green.css   # CSS for green theme
-├── assets/styles_yellow.css  # CSS for green theme
-├── assets/scripts.js         # JavaScript functionality
-├── assets/r12000image1.png   # rSeries image
-├── assets/image142.png       # VELOS image
-├── nginx_config/ltm-demo     # NGINX config files for http
-├── nginx_config/ltm-demo-ssl # NGINX config files for https
-├── screenshots/              # Browser screenshots
-└── README.md                 # This file
+├── index_red.html           # Server 1 (Red theme)
+├── index_blue.html          # Server 2 (Blue theme)
+├── index_green.html         # Server 3 (Green theme)
+├── index_yellow.html        # Server 4 (Yellow theme)
+├── assets/styles_red.css    # CSS for red theme
+├── assets/styles_blue.css   # CSS for blue theme
+├── assets/styles_green.css  # CSS for green theme
+├── assets/styles_yellow.css # CSS for green theme
+├── assets/scripts.js        # JavaScript functionality
+├── assets/r12000image1.png  # rSeries image
+├── assets/image142.png      # VELOS image
+└── README.md                # This file
 ```
 
 ## 🔧 Template Variables
