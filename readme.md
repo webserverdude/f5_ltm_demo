@@ -50,26 +50,25 @@ sudo nano /etc/network/interfaces
 
 Add the following:
 ```
-auto eth0
+allow-hotplug eth0
 iface eth0 inet static
-    address 192.168.1.10
-    netmask 255.255.255.0
-    gateway 192.168.1.1
+address 192.168.1.10/24
+gateway 192.168.1.1
 
 auto eth0:1
+allow-hotplug eth0:1
 iface eth0:1 inet static
-    address 192.168.1.11
-    netmask 255.255.255.0
+address 192.168.1.11/24
 
 auto eth0:2
+allow-hotplug eth0:2
 iface eth0:2 inet static
-    address 192.168.1.12
-    netmask 255.255.255.0
+address 192.168.1.12/24
 
 auto eth0:3
+allow-hotplug eth0:3
 iface eth0:3 inet static
-    address 192.168.1.13
-    netmask 255.255.255.0
+address 192.168.1.13/24
 ```
 
 Restart networking:
@@ -84,7 +83,7 @@ sudo systemctl restart networking
 Create a self-signed SSL certificate with RSA 2048-bit key (no password):
 ```bash
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout private.key -out certificate.crt \
+  -keyout nginx-selfsigned.key -out nginx-selfsigned.crt \
   -subj "/C=US/ST=State/L=City/O=Organization/CN=example.com"
 ```
 
@@ -111,7 +110,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 2. **Deploy to your web server**
    ```bash
    # Example for NGINX
-   sudo cp -r * /var/www/html/
+   sudo cp -r * /var/www/ltm-demo-html
    ```
 
 3. **Configure your web server** (see NGINX configuration below)
@@ -124,7 +123,67 @@ The configuration includes HTTP as well as HTTPS listeners.
 Add this configuration to your NGINX server block:
 
 ```
+server {
+        listen 192.168.1.10:8000 default_server;
+        root /var/www/ltm-demo-html;
+
+        index index_red.html;
+
+        server_name _;
+
+        add_header X-Backend-Server 1;
+        add_header Set-Cookie "X-Backend-Server=1; Max-Age=10";
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+        # Enable the substitution filter
+        sub_filter_once off;  # Allow multiple substitutions
+
+        # Replace template variables with actual NGINX variables
+        sub_filter '{{server_name}}' '$hostname';
+        sub_filter '{{time_iso8601}}' '$time_iso8601';
+        sub_filter '{{request_uri}}' '$request_uri';
+        sub_filter '{{remote_addr}}' '$remote_addr';
+        sub_filter '{{http_x_forwarded_for}}' '$http_x_forwarded_for';
+        sub_filter '{{http_user_agent}}' '$http_user_agent';
+}
+server {
+        listen 10.0.2.71:443 ssl default_server;
+        ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+        ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+
+        # SSL configuration
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384;
+        ssl_prefer_server_ciphers off;
+        ssl_session_cache shared:SSL:10m;
+        ssl_session_timeout 10m;
+
+        root /var/www/ltm-demo-html;
+        index index_red.html;
+        server_name _;
+        add_header X-Backend-Server 1;
+        add_header Set-Cookie "X-Backend-Server=$request_id; Max-Age=10; Secure; SameSite=Strict";
+        location / {
+                try_files $uri $uri/ =404;
+        }
+        # Enable the substitution filter
+        sub_filter_once off;  # Allow multiple substitutions
+
+        # Replace template variables with actual NGINX variables
+        sub_filter '{{server_name}}' '$hostname';
+        sub_filter '{{time_iso8601}}' '$time_iso8601';
+        sub_filter '{{request_uri}}' '$request_uri';
+        sub_filter '{{remote_addr}}' '$remote_addr';
+        sub_filter '{{http_x_forwarded_for}}' '$http_x_forwarded_for';
+        sub_filter '{{http_user_agent}}' '$http_user_agent';
+}
 ```
+
+**Note:** This is just a snippet for one HTTP and one HTTPS virtual. The full config is in `/nginx_config/`.
+
 
 ## 📁 Project Structure
 

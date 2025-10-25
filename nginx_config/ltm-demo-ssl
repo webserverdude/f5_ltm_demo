@@ -1,0 +1,124 @@
+server {
+        listen 192.168.1.10:443 ssl default_server;
+        ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+        ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+        
+        # SSL configuration
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384;
+        ssl_prefer_server_ciphers off;
+        ssl_session_cache shared:SSL:10m;
+        ssl_session_timeout 10m;
+        
+        root /var/www/ltm-demo-html;
+        index index_red.html;
+        server_name _;
+        add_header X-Backend-Server 1;
+        add_header Set-Cookie "X-Backend-Server=$request_id; Max-Age=10; Secure; SameSite=Strict";
+        location / {
+                try_files $uri $uri/ =404;
+        }
+        # Enable the substitution filter
+        sub_filter_once off;  # Allow multiple substitutions
+        
+        # Replace template variables with actual NGINX variables
+        sub_filter '{{server_name}}' '$hostname';
+        sub_filter '{{time_iso8601}}' '$time_iso8601';
+        sub_filter '{{request_uri}}' '$request_uri';
+        sub_filter '{{remote_addr}}' '$remote_addr';
+        sub_filter '{{http_x_forwarded_for}}' '$http_x_forwarded_for';
+        sub_filter '{{http_user_agent}}' '$http_user_agent';
+}
+
+server {
+        listen 192.168.1.11:443 ssl default_server;
+        ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+        ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+        
+        # SSL configuration
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384;
+        ssl_prefer_server_ciphers off;
+        ssl_session_cache shared:SSL:10m;
+        ssl_session_timeout 10m;
+        
+        root /var/www/ltm-demo-html;
+        index index_blue.html;
+        server_name _;
+        add_header X-Backend-Server 2;
+        add_header Set-Cookie "X-Backend-Server=$request_id; Max-Age=10; Secure; SameSite=Strict";
+        location / {
+                try_files $uri $uri/ =404;
+        }
+        # Enable the substitution filter
+        sub_filter_once off;  # Allow multiple substitutions
+        # Replace template variables with actual NGINX variables
+        sub_filter '{{server_name}}' '$hostname';
+        sub_filter '{{time_iso8601}}' '$time_iso8601';
+        sub_filter '{{request_uri}}' '$request_uri';
+        sub_filter '{{remote_addr}}' '$remote_addr';
+        sub_filter '{{http_x_forwarded_for}}' '$http_x_forwarded_for';
+        sub_filter '{{http_user_agent}}' '$http_user_agent';
+}
+
+server {
+        listen 192.168.1.12:443 ssl default_server;
+        ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+        ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+        
+        # SSL configuration
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384;
+        ssl_prefer_server_ciphers off;
+        ssl_session_cache shared:SSL:10m;
+        ssl_session_timeout 10m;
+        
+        root /var/www/ltm-demo-html;
+        index index_green.html;
+        server_name _;
+        add_header X-Backend-Server 3;
+        add_header Set-Cookie "X-Backend-Server=$request_id; Max-Age=10; Secure; SameSite=Strict";
+        location / {
+                try_files $uri $uri/ =404;
+        }
+        # Enable the substitution filter
+        sub_filter_once off;  # Allow multiple substitutions
+        # Replace template variables with actual NGINX variables
+        sub_filter '{{server_name}}' '$hostname';
+        sub_filter '{{time_iso8601}}' '$time_iso8601';
+        sub_filter '{{request_uri}}' '$request_uri';
+        sub_filter '{{remote_addr}}' '$remote_addr';
+        sub_filter '{{http_x_forwarded_for}}' '$http_x_forwarded_for';
+        sub_filter '{{http_user_agent}}' '$http_user_agent';
+}
+
+server {
+        listen 192.168.1.13:443 ssl default_server;
+        ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+        ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+        
+        # SSL configuration
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384;
+        ssl_prefer_server_ciphers off;
+        ssl_session_cache shared:SSL:10m;
+        ssl_session_timeout 10m;
+        
+        root /var/www/ltm-demo-html;
+        index index_yellow.html;
+        server_name _;
+        add_header X-Backend-Server 4;
+        add_header Set-Cookie "X-Backend-Server=$request_id; Max-Age=10; Secure; SameSite=Strict";
+        location / {
+                try_files $uri $uri/ =404;
+        }
+        # Enable the substitution filter
+        sub_filter_once off;  # Allow multiple substitutions
+        # Replace template variables with actual NGINX variables
+        sub_filter '{{server_name}}' '$hostname';
+        sub_filter '{{time_iso8601}}' '$time_iso8601';
+        sub_filter '{{request_uri}}' '$request_uri';
+        sub_filter '{{remote_addr}}' '$remote_addr';
+        sub_filter '{{http_x_forwarded_for}}' '$http_x_forwarded_for';
+        sub_filter '{{http_user_agent}}' '$http_user_agent';
+}
