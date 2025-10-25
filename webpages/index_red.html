@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F5 LTM - Local Traffic Manager</title>
+    
+    <!-- Enhanced Bootstrap and Google Fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="assets/styles_red.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand animate__animated animate__fadeInDown" href="#">
+                <i class="fas fa-network-wired me-2"></i>F5 LTM
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="margin-top: 100px;">
+        <!-- Hero Section -->
+        <div class="hero-section animate__animated animate__fadeInUp">
+            <div class="hero-content text-center">
+                <h1 class="display-4 mb-4">
+                    <i class="fas fa-shield-alt me-3"></i>
+                    Welcome to F5 LTM
+                </h1>
+                <p class="lead mb-4">F5 LTM (Local Traffic Manager) is a high-performance load balancing solution that optimizes the delivery of applications. With advanced traffic management and security features, F5 LTM ensures your applications are fast, secure, and available.</p>                
+                <p class="h3 mt-4">
+                    <span class="status-indicator"></span>
+                    You are on server 1 - <span class="code-font">{{server_name}}</span>
+                </p>
+                <div class="loading-bar"></div>
+            </div>
+        </div>
+        
+        <!-- Server Information Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card server-info-card animate__animated animate__fadeInUp">
+                    <div class="card-header text-white">
+                        <h3 class="card-title mb-0">
+                            <i class="fas fa-server me-2"></i>
+                            Live Server Information
+                        </h3>
+                        <small class="real-time-info">
+                            <i class="fas fa-clock me-1"></i>
+                            Updated in real-time • <span id="current-time"></span>
+                        </small>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <div class="col-md-6">
+                                <table class="table info-table">
+                                    <tr>
+                                        <td><i class="fas fa-desktop me-2"></i>Server:</td>
+                                        <td>{{server_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-calendar-alt me-2"></i>Date:</td>
+                                        <td>{{time_iso8601}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-link me-2"></i>URI:</td>
+                                        <td>{{request_uri}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table info-table">
+                                    <tr>
+                                        <td><i class="fas fa-map-marker-alt me-2"></i>Source IP:</td>
+                                        <td>{{remote_addr}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-share-alt me-2"></i>Client (XFF) IP:</td>
+                                        <td>{{http_x_forwarded_for}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-user-circle me-2"></i>User-Agent:</td>
+                                        <td style="word-break: break-all; font-size: 0.8rem;">{{http_user_agent}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features and Network Diagram Section -->
+        <div class="row g-4" id="features">
+            <div class="col-md-6">
+                <div class="card feature-card animate__animated animate__fadeInLeft">
+                    <div class="card-header">
+                        <h2 class="text-white mb-0"><i class="fas fa-cogs me-2"></i>Key Features</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Advanced Load Balancing</li>
+                            <li class="list-group-item">SSL Offloading</li>
+                            <li class="list-group-item">Application Acceleration</li>
+                            <li class="list-group-item">Comprehensive Health Monitoring</li>
+                            <li class="list-group-item">Global Server Load Balancing</li>
+                            <li class="list-group-item">Integrated Web Application Firewall</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" id="network-diagram">
+                <div class="card feature-card animate__animated animate__fadeInRight">
+                    <div class="card-header">
+                        <h2 class="text-white mb-0"><i class="fas fa-network-wired me-2"></i>Network Architecture</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="network-diagram">
+                            <!-- Client/Internet -->
+                            <div class="network-level">
+                                <div class="client-node animate-pulse">
+                                    <i class="fas fa-globe fa-2x text-primary"></i>
+                                    <span>Internet</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Traffic Flow Lines -->
+                            <div class="traffic-lines">
+                                <div class="traffic-line line-1"></div>
+                                <div class="traffic-line line-2"></div>
+                                <div class="traffic-line line-3"></div>
+                            </div>
+                            
+                            <!-- F5 LTM -->
+                            <div class="network-level">
+                                <div class="ltm-node">
+                                    <i class="fas fa-shield-alt fa-3x text-danger"></i>
+                                    <span class="fw-bold">F5 LTM</span>
+                                    <small class="text-muted">Load Balancer</small>
+                                </div>
+                            </div>
+                            
+                            <!-- Distribution Lines -->
+                            <div class="distribution-lines">
+                                <div class="dist-line dist-1"></div>
+                                <div class="dist-line dist-2"></div>
+                                <div class="dist-line dist-3"></div>
+                                <div class="dist-line dist-4"></div>
+                            </div>
+                            
+                            <!-- Backend Servers -->
+                            <div class="network-level servers">
+                                <div class="server-node server-1 current-server">
+                                    <i class="fas fa-server fa-2x text-danger"></i>
+                                    <span>Server 1</span>
+                                    <div class="status-dot active current"></div>
+                                </div>
+                                <div class="server-node server-2">
+                                    <i class="fas fa-server fa-2x text-primary"></i>
+                                    <span>Server 2</span>
+                                    <div class="status-dot active"></div>
+                                </div>
+                                <div class="server-node server-3">
+                                    <i class="fas fa-server fa-2x text-success"></i>
+                                    <span>Server 3</span>
+                                    <div class="status-dot active"></div>
+                                </div>
+                                <div class="server-node server-4">
+                                    <i class="fas fa-server fa-2x text-warning"></i>
+                                    <span>Server 4</span>
+                                    <div class="status-dot active"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Legend -->
+                        <div class="diagram-legend mt-4">
+                            <div class="legend-item">
+                                <div class="status-dot active"></div>
+                                <span>Active Server</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="status-dot current"></div>
+                                <span>Current Server</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Gallery Section -->
+        <div class="row mb-5 mt-5">
+            <div class="col-12">
+                <div class="card server-info-card animate__animated animate__fadeInUp">
+                    <div class="card-header text-white">
+                        <h3 class="card-title mb-0">
+                            <i class="fas fa-images me-2"></i>
+                            Gallery
+                        </h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="image-container">
+                                    <img src="assets/image142.png" alt="Gallery Image 1" class="img-fluid rounded shadow-sm">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="image-container">
+                                    <img src="assets/r12000image1.png" alt="Gallery Image 2" class="img-fluid rounded shadow-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action Section -->
+        <div class="text-center my-5" id="contact">
+            <div class="animate__animated animate__fadeInUp">
+                <h2 class="mb-4">
+                    <i class="fas fa-rocket me-2"></i>
+                    Get Started with F5 LTM
+                </h2>
+                <p class="lead mb-4">Ready to optimize your application delivery with F5 LTM? Contact us today to learn more and get a personalized demo.</p>
+                <button class="btn btn-danger btn-custom">
+                    <i class="fas fa-envelope me-2"></i>
+                    Contact Us
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer text-center py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <p class="mb-2">Load Balancer Demo Environment</p>
+                    <p class="mb-0 text-muted">
+                        <i class="fas fa-code me-1"></i>
+                        Powered by F5 LTM Technology
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Enhanced Bootstrap JS and custom scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/scripts.js"></script>
+</body>
+</html>
