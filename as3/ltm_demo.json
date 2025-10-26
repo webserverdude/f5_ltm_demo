@@ -1,0 +1,110 @@
+{
+    "$schema": "https://raw.githubusercontent.com/F5Networks/f5-appsvcs-extension/main/schema/latest/as3-schema.json",
+    "class": "AS3",
+    "action": "deploy",
+    "persist": true,
+    "declaration": {
+        "class": "ADC",
+        "schemaVersion": "3.0.0",
+        "LTM_Demo": {
+            "class": "Tenant",
+            "LTM_Demo": {
+                "class": "Application",
+                "vs_http": {
+                    "class": "Service_HTTP",
+                    "virtualAddresses": [
+                        "192.168.3.80"
+                    ],
+                    "persistenceMethods": [],
+                    "profileHTTP": {
+                        "use": "pr_http_xff"
+                    },
+                    "pool": "pl_ltm-demo_http",
+                    "snat": {
+                        "use": "pl_SNAT_addresses"
+                    }
+                },
+                "vs_https": {
+                    "class": "Service_HTTPS",
+                    "virtualAddresses": [
+                        "192.168.3.80"
+                    ],
+                    "redirect80": false,
+                    "persistenceMethods": [
+                        {
+                            "use": "pr_cookie_hash"
+                        }
+                    ],
+                    "profileHTTP": {
+                        "use": "pr_http_xff"
+                    },
+                    "pool": "pl_ltm-demo_https",
+                    "snat": {
+                        "use": "pl_SNAT_addresses"
+                    },
+                    "serverTLS": {
+                        "bigip": "/Common/clientssl"
+                    },
+                    "clientTLS": {
+                        "bigip": "/Common/serverssl"
+                    }
+                },
+                "pr_http_xff": {
+                    "class": "HTTP_Profile",
+                    "xForwardedFor": true
+                },
+                "pl_ltm-demo_http": {
+                    "class": "Pool",
+                    "loadBalancingMode": "round-robin",
+                    "members": [
+                        {
+                            "servicePort": 8000,
+                            "serverAddresses": [
+                                "192.168.1.10",
+                                "192.168.1.11",
+                                "192.168.1.12",
+                                "192.168.1.13"
+                            ],
+                            "shareNodes": true
+                        }
+                    ],
+                    "monitors": [
+                        "http"
+                    ]
+                },
+                "pl_ltm-demo_https": {
+                    "class": "Pool",
+                    "members": [
+                        {
+                            "servicePort": 443,
+                            "serverAddresses": [
+                                "192.168.1.10",
+                                "192.168.1.11",
+                                "192.168.1.12",
+                                "192.168.1.13"
+                            ],
+                            "shareNodes": true
+                        }
+                    ],
+                    "monitors": [
+                        "https"
+                    ]
+                },
+                "pr_cookie_hash": {
+                    "class": "Persist",
+                    "persistenceMethod": "cookie",
+                    "cookieMethod": "hash",
+                    "cookieName": "X-Backend-Server",
+                    "duration": 60
+                },
+                "pl_SNAT_addresses": {
+                    "class": "SNAT_Pool",
+                    "snatAddresses": [
+                        "192.168.1.241",
+                        "192.168.1.242"
+                    ]
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,94 @@
+{
+    "$schema": "https://raw.githubusercontent.com/F5Networks/f5-appsvcs-extension/main/schema/latest/as3-schema.json",
+    "class": "AS3",
+    "action": "deploy",
+    "persist": true,
+    "declaration": {
+        "remark": "DO NOT deploy, COPY & MERGE snippets into ltm_demo.json",
+        "class": "ADC",
+        "schemaVersion": "3.0.0",
+        "LTM_Demo_config_options": {
+            "class": "Tenant",
+            "LTM_Demo_config_options": {
+                "class": "Application",
+                "pl_ltm-demo_least_connection": {
+                    "class": "Pool",
+                    "loadBalancingMode": "least-connections-member",
+                    "members": [
+                        {
+                            "servicePort": 8000,
+                            "serverAddresses": [
+                                "192.168.1.10",
+                                "192.168.1.11",
+                                "192.168.1.12",
+                                "192.168.1.13"
+                            ],
+                            "monitors": [
+                                "http"
+                            ],
+                            "shareNodes": true
+                        }
+                    ]
+                },
+                "pl_ltm-demo_prio_groups": {
+                    "class": "Pool",
+                    "loadBalancingMode": "least-connections-member",
+                    "members": [
+                        {
+                            "servicePort": 8000,
+                            "priorityGroup": 10,
+                            "serverAddresses": [
+                                "192.168.1.10",
+                                "192.168.1.11"
+                            ],
+                            "monitors": [
+                                "http"
+                            ],
+                            "shareNodes": true
+                        },
+                        {
+                            "servicePort": 8000,
+                            "serverAddresses": [
+                                "192.168.1.12",
+                                "192.168.1.13"
+                            ],
+                            "monitors": [
+                                "http"
+                            ],
+                            "shareNodes": true
+                        }
+                    ]
+                },
+                "pr_cookie_basic": {
+                    "class": "Persist",
+                    "persistenceMethod": "cookie",
+                    "cookieMethod": "insert",
+                    "duration": 120
+                },
+                "pr_cookie_persist": {
+                    "class": "Persist",
+                    "persistenceMethod": "cookie",
+                    "cookieMethod": "insert",
+                    "cookieName": "LBSESSIONID",
+                    "duration": 60
+                },
+                "pr_cookie_secure_persist": {
+                    "class": "Persist",
+                    "persistenceMethod": "cookie",
+                    "cookieMethod": "insert",
+                    "cookieName": "LBSESSIONID",
+                    "duration": 60,
+                    "encrypt": true,
+                    "passphrase": {
+                        "allowReuse": true,
+                        "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJmNXN2In0=",
+                        "ciphertext": "UEAkJHcwcmQ=",
+                        "miniJWE": true
+                    },
+                    "secure": true,
+                    "httpOnly": true
+                }
+            }
+        }
+    }
+}
